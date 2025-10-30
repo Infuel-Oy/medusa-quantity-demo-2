@@ -2,7 +2,7 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
-    container_name: medusa_postgres
+    container_name: medusa_postgres_2
     restart: unless-stopped
     environment:
       POSTGRES_DB: medusa-demo
@@ -18,7 +18,7 @@ services:
   # Redis
   redis:
     image: redis:7-alpine
-    container_name: medusa_redis
+    container_name: medusa_redis_2
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -30,7 +30,7 @@ services:
   # and the admin dashboard.
   medusa:
     build: .
-    container_name: medusa_backend
+    container_name: medusa_backend_2
     restart: unless-stopped
     depends_on:
       - postgres
@@ -39,8 +39,8 @@ services:
       - "9000:9000"
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/medusa-demo
-      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgres://postgres:postgres@medusa_postgres_2:5432/medusa-demo
+      - REDIS_URL=redis://redis_2:6379
     env_file:
       - .env
     volumes:
